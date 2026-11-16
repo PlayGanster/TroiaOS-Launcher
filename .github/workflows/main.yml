@@ -17,10 +17,14 @@ jobs:
         java-version: '17'
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: android-actions/setup-android@v4.0.4
+      with:
+        packages: 'platform-tools'   # Явно указываем пакет, чтобы не устанавливать удаленный 'tools'
 
     - name: Install Build Tools
-      run: sdkmanager "build-tools;34.0.0" "platforms;android-34"
+      run: |
+        yes | sdkmanager --licenses > /dev/null  # Автоматически принимаем лицензии
+        sdkmanager "build-tools;34.0.0" "platforms;android-34"
 
     - name: Build APK
       run: |
